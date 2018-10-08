@@ -150,7 +150,6 @@ brfss_smart2010 = janitor::clean_names(brfss_smart2010) %&gt;%
   filter(health_response %in% c(&quot;Excellent&quot;, &quot;Very good&quot;, &quot;Good&quot;, &quot;Fair&quot;, &quot;Poor&quot;)) %&gt;%
            mutate(health_response = factor(health_response, levels = c(&quot;Excellent&quot;, &quot;Very good&quot;, &quot;Good&quot;, &quot;Fair&quot;, &quot;Poor&quot;))) %&gt;%
   arrange(health_response)</code></pre>
-<p>, health_response == ‘very good’, health_response == ‘good’, health_response == ‘fair’, health_response == ‘poor’</p>
 </div>
 <div id="problem-2" class="section level4">
 <h4>Problem 2</h4>
