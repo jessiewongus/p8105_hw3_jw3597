@@ -34,6 +34,8 @@ brfss_smart2010 = janitor::clean_names(brfss_smart2010) %>%
   arrange(health_response)
 ```
 
+In 2002, the states observed at 7 locations are
+
 #### Problem 2
 
 This problem uses the Instacart data. The data is loaded from the p8105.datasets package (called instacart).  
