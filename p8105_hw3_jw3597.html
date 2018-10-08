@@ -141,6 +141,16 @@ $(document).ready(function () {
 <li>include only responses from “Excellent” to “Poor”</li>
 <li>organize responses as a factor taking levels from “Excellent” to “Poor”</li>
 </ul>
+<pre class="r"><code>library(p8105.datasets)
+data(&quot;brfss_smart2010&quot;)
+
+# I am formatting the data using appropriate variable names and then only using responses from &quot;Excellent&quot; to &quot;Poor&quot;:
+brfss_smart2010 = janitor::clean_names(brfss_smart2010) %&gt;%
+  rename(state = locationabbr, county = locationdesc, health_issue = class, health_issue_topic = topic, health_question = question, health_response = response, lower_95CI = confidence_limit_low, upper_95CI = confidence_limit_high) %&gt;% 
+  filter(health_response %in% c(&quot;Excellent&quot;, &quot;Very good&quot;, &quot;Good&quot;, &quot;Fair&quot;, &quot;Poor&quot;)) %&gt;%
+           mutate(health_response = factor(health_response, levels = c(&quot;Excellent&quot;, &quot;Very good&quot;, &quot;Good&quot;, &quot;Fair&quot;, &quot;Poor&quot;))) %&gt;%
+  arrange(health_response)</code></pre>
+<p>, health_response == ‘very good’, health_response == ‘good’, health_response == ‘fair’, health_response == ‘poor’</p>
 </div>
 <div id="problem-2" class="section level4">
 <h4>Problem 2</h4>
@@ -152,6 +162,7 @@ $(document).ready(function () {
 <li>Make a table showing the most popular item aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”</li>
 <li>Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).</li>
 </ul>
+<pre class="r"><code>data(&quot;instacart&quot;)</code></pre>
 </div>
 <div id="problem-3" class="section level4">
 <h4>Problem 3</h4>
@@ -162,6 +173,7 @@ $(document).ready(function () {
 <li>Make a two-panel plot showing the average temperature in January and in July in each station across years. Is there any observable / interpretable structure? Any outliers?</li>
 <li>Make a two-panel plot showing (i) tmax vs tmin for the full dataset (note that a scatterplot may not be the best option); and (ii) make a plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.</li>
 </ul>
+<pre class="r"><code>data(&quot;ny_noaa&quot;)</code></pre>
 </div>
 
 

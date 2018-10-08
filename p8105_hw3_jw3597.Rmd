@@ -9,6 +9,7 @@ title: "P85105_hw3_jw3597"
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(dplyr)
 ```
 
 
@@ -24,11 +25,18 @@ First we will do some data cleaning:
 * organize responses as a factor taking levels from “Excellent” to “Poor”
 
 ```{r}
-install.packages("devtools")
-devtools::install_github("p8105/p8105.datasets")
 library(p8105.datasets)
 data("brfss_smart2010")
+
+# I am formatting the data using appropriate variable names and then only using responses from "Excellent" to "Poor":
+brfss_smart2010 = janitor::clean_names(brfss_smart2010) %>%
+  rename(state = locationabbr, county = locationdesc, health_issue = class, health_issue_topic = topic, health_question = question, health_response = response, lower_95CI = confidence_limit_low, upper_95CI = confidence_limit_high) %>% 
+  filter(health_response %in% c("Excellent", "Very good", "Good", "Fair", "Poor")) %>%
+           mutate(health_response = factor(health_response, levels = c("Excellent", "Very good", "Good", "Fair", "Poor"))) %>%
+  arrange(health_response)
+
 ```
+
 
 #### Problem 2
 
@@ -43,7 +51,6 @@ The goal is to do some exploration of this dataset. To that end, write a short d
 
 ```{r}
 data("instacart")
-
 ```
 
 #### Problem 3
@@ -58,7 +65,6 @@ The goal is to do some exploration of this dataset. To that end, write a short d
 
 ```{r}
 data("ny_noaa")
-
 ```
 
 
