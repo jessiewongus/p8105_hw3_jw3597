@@ -1,5 +1,6 @@
 ---
 title: "P85105_hw3_jw3597"
+name: "Jessie Wong"
 output: github_document
 ---
 
@@ -30,46 +31,50 @@ brfss_smart2010 = janitor::clean_names(brfss_smart2010) %>%
   filter(health_response %in% c("Excellent", "Very good", "Good", "Fair", "Poor")) %>%
            mutate(health_response = factor(health_response, levels = c("Excellent", "Very good", "Good", "Fair", "Poor"))) %>%
   arrange(health_response)
-
 ```
 
 Using this dataset, I will answer the following (commenting on the results of each):
 
 * In 2002, which states were observed at 7 locations?
+```{r}
+brfss_2002 = brfss_smart2010 %>% 
+  filter(year == "2002") %>%
+  group_by(state) %>%
+  summarize(n = n_distinct(county)) %>%
+  filter(n == 7)
+```
+In 2002, the states observed at 7 locations are CT, FL, and NC.
+
 * Make a “spaghetti plot” that shows the number of observations in each state from 2002 to 2010.
-* Make a table showing, for the years 2002, 2006, and 2010, the mean and standard deviation of the proportion of “Excellent” responses across locations in NY State.
-* For each year and state, compute the average proportion in each response category (taking the average across locations in a state). Make a five-panel plot that shows, for each response category separately, the distribution of these state-level averages over time.
-
 ```{r}
-# States observed at 7 locations in 2002?
-brfss_smart2010 %>%
-  group_by(state, year = 2002) %>%
-  count(state)
-  count(year = '2002', state) %>%
-  table(year = 2002, state)
-  count(state)
-  count(state, year = 2002)
-  group_by(year, state) %>%
-  summarize(state = ) %>%
-  tail
-
-# I am making a "spaghetti plot" with the number of observations in each state from 2002 to 2010
-
-  ggplot(brfss_smart2010, aes(x = , y = , color = )) + 
-  geom_smooth(se = FALSE) 
-```
-
-```{r}
-brfss_smart2010 %>%
+gg2002_2010 = brfss_smart2010 %>%
   group_by(state, year) %>%
-  summarize(
-    count(state)) %>%
-  gplot(aes(x = year, y = nobs, color = state)) + 
-    geom_point() + geom_line() + 
-    theme(legend.position = "bottom")
+  distinct(county) %>%
+  count(year,state)
+
+ggplot(gg2002_2010, aes(x = year, y = n, colour = state)) + geom_line(se = FALSE)
 ```
 
-In 2002, the states observed at 7 locations are
+* Make a table showing, for the years 2002, 2006, and 2010, the mean and standard deviation of the proportion of “Excellent” responses across locations in NY State.
+```{r}
+table1 = brfss_smart2010 %>%
+  filter(state == "NY") %>% 
+  distinct(county))
+  filter()
+  summarize(ny_state = n_distinct(state == "NY"))
+   %>%
+    group_by(state = "NY")
+  mutate(2002 = )
+ 
+  year %in% c("2002", "2006", "2010") 
+table1
+```
+
+* For each year and state, compute the average proportion in each response category (taking the average across locations in a state). Make a five-panel plot that shows, for each response category separately, the distribution of these state-level averages over time.
+```{r}
+
+```
+
 
 #### Problem 2
 
@@ -88,21 +93,28 @@ data("instacart")
 # Identifying the number of aisles and aisles with the most ordered items
 uni = distinct(instacart, aisle_id)
 count(uni)
-
-sort(table(instacart$aisle_id), decreasing = TRUE)
+  
+sort(table(instacart$aisle), decreasing = TRUE)
 ```
 "Instacart" is a dataset that shows the online grocery orders of its users, containing 1,384,617 rows and 15 columns. Some of the key variables are the product name, aisle name and number where the product is found/categorized in, whether the item(s) were reordered, and the order ID that indicates the specific order placed by a customer.
 
-* There are 134 aisles and the aisles with the most ordered items is 83 (most), 24, 123, and 120.
+* There are 134 aisles and the aisles with the most ordered items is 83 "fresh vegetables" (most), 24 "fresh fruits", 123 "packaged vegetable fruits", and 120 "yogurt".
 
 ```{r}
 # Plot that shows the number of items ordered in each aisle. Aisles will be ordered sensibly and the plot will be organized to be readable to others
+
 
 ```
 
 ```{r}
 # Table showing the most popular item aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits
-
+pop = instacart %>% 
+  filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables fruits")) %>%
+  
+  group_by(state) %>%
+  summarize(n = n_distinct(county)) %>%
+  filter(n == 7)
+pop$aisle
 ```
 
 ```{r}
