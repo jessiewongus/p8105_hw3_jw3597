@@ -76,9 +76,6 @@ ggplot(panel_plot, aes(x = year, y = average_proportion, color = state)) +
   
 ```
 
-
-
-
 #### Problem 2
 
 This problem uses the Instacart data. The data is loaded from the p8105.datasets package (called instacart).  
@@ -101,12 +98,19 @@ sort(table(instacart$aisle), decreasing = TRUE)
 ```
 "Instacart" is a dataset that shows the online grocery orders of its users, containing 1,384,617 rows and 15 columns. Some of the key variables are the product name, aisle name and number where the product is found/categorized in, whether the item(s) were reordered, and the order ID that indicates the specific order placed by a customer.
 
-* There are 134 aisles and the aisles with the most ordered items is 83 "fresh vegetables" (most), 24 "fresh fruits", 123 "packaged vegetable fruits", and 120 "yogurt".
+* There are 134 aisles and the aisles with the most ordered items is aisle 83 "fresh vegetables" (most), 24 "fresh fruits", and 123 "packaged vegetable fruits".
 
 ```{r}
 # Plot that shows the number of items ordered in each aisle. Aisles will be ordered sensibly and the plot will be organized to be readable to others
 
+items = instacart %>%
+  group_by(aisle, aisle_id) %>% 
+  count(aisle) %>% 
+  rename(items_ordered = n) %>%
+  arrange(aisle)
 
+ggplot(items, aes(x = aisle_id, y = items_ordered)) + 
+  geom_point(alpha = .5)
 ```
 
 ```{r}
