@@ -94,7 +94,8 @@ data("instacart")
 uni = distinct(instacart, aisle_id)
 count(uni)
   
-sort(table(instacart$aisle), decreasing = TRUE)
+sort(table(instacart$aisle), decreasing = TRUE) %>%
+  head()
 ```
 "Instacart" is a dataset that shows the online grocery orders of its users, containing 1,384,617 rows and 15 columns. Some of the key variables are the product name, aisle name and number where the product is found/categorized in, whether the item(s) were reordered, and the order ID that indicates the specific order placed by a customer.
 
@@ -102,7 +103,6 @@ sort(table(instacart$aisle), decreasing = TRUE)
 
 ```{r}
 # Plot that shows the number of items ordered in each aisle. Aisles will be ordered sensibly and the plot will be organized to be readable to others
-
 items = instacart %>%
   group_by(aisle, aisle_id) %>% 
   count(aisle) %>% 
@@ -114,12 +114,21 @@ ggplot(items, aes(x = aisle_id, y = items_ordered)) +
 ```
 
 ```{r}
-# Table showing the most popular item aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits
-
+# Table showing the most popular item in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits
+popular = instacart %>%
+  group_by(aisle) %>%
+  filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables fruits")) %>%
+  summarize(most_popular = max(product_name))
 ```
+The most popular item in "baking ingredients" aisle is the zero calorie sweeter, the most popular item in "dog food care" is Zero Grain Turkey Dog Food, and the most popular item in "packaged vetables fruits" is Zucchini Squash, Baby Courgette.
 
 ```{r}
 # Table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table)
+meanhr = instacart %>%
+  group_by(product_name, order_dow) %>%
+  filter(product_name %in% c("Pink Lady Apples", "Coffee Ice Cream")) %>%
+  
+  
 
 ```
 
