@@ -58,23 +58,23 @@ ggplot(gg2002_2010, aes(x = year, y = n, colour = state)) + geom_line(se = FALSE
 * Make a table showing, for the years 2002, 2006, and 2010, the mean and standard deviation of the proportion of “Excellent” responses across locations in NY State.
 ```{r}
 table1 = brfss_smart2010 %>%
-  filter(state == "NY") %>% 
-  distinct(county))
-  filter()
-  summarize(ny_state = n_distinct(state == "NY"))
-   %>%
-    group_by(state = "NY")
-  mutate(2002 = )
- 
-  year %in% c("2002", "2006", "2010") 
-table1
+  filter(state == "NY", health_response == "Excellent") %>%
+  spread(key = health_response, value = data_value) %>%
+  filter(year %in% c("2002", "2006", "2010")) %>%
+  group_by(county) %>%
+  summarize(mean_excellent = mean(Excellent), sd_excellent = sd(Excellent))
 ```
 
 * For each year and state, compute the average proportion in each response category (taking the average across locations in a state). Make a five-panel plot that shows, for each response category separately, the distribution of these state-level averages over time.
 ```{r}
-
+panel_plot = brfss_smart2010 %>%
+  group_by(state, year) %>%
+  mutate(excellent = sum((health_response == "Excellent")/(sample_size)), very_good = sum((health_response == "Very good")/(sample_size)), good = sum((health_response == "Good")/(sample_size)), fair = sum((health_response == "Fair")/(sample_size)), poor = sum((health_response == "Poor")/(sample_size))) %>%
+  ggplot(panel_plot, aes(x = year, fill = observation)) + 
+  geom_point(alpha = .5) +
+  geom_smooth(se = FALSE) + 
+  facet_grid(. ~ name)
 ```
-
 
 #### Problem 2
 
@@ -119,6 +119,7 @@ pop$aisle
 
 ```{r}
 # Table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table)
+
 ```
 
 
