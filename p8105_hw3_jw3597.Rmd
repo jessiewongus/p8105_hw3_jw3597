@@ -182,8 +182,11 @@ ggplot(avgtemp_janjul, aes(x = id, y = avg_temp)) +
 
 * Make a two-panel plot showing (i) `tmax` vs `tmin` for the full dataset (note that a scatterplot may not be the best option); and (ii) make a plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.
 ```{r}
-tmax_tmin = ny_noaa
+# (ii) Plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year  
+snowfall = ny_noaa %>%
+  filter(snow > 0, snow < 100, !is.na(tmax), !is.na(tmin)) %>%
+  group_by(year)
+
+ggplot(snowfall, aes(x = year, y = snow)) + geom_boxplot()
   
 ```
-
-* 
