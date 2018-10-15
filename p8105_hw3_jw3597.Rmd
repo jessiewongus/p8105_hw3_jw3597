@@ -52,29 +52,32 @@ gg2002_2010 = brfss_smart2010 %>%
   distinct(county) %>%
   count(year,state)
 
-ggplot(gg2002_2010, aes(x = year, y = n, colour = state)) + geom_line(se = FALSE)
+ggplot(gg2002_2010, aes(x = year, y = n, color = state)) + geom_line(se = FALSE)
 ```
 
 * Make a table showing, for the years 2002, 2006, and 2010, the mean and standard deviation of the proportion of “Excellent” responses across locations in NY State.
 ```{r}
 table1 = brfss_smart2010 %>%
-  filter(state == "NY", health_response == "Excellent") %>%
+  filter(state == "NY", health_response == "Excellent", year %in% c("2002", "2006", "2010")) %>%
   spread(key = health_response, value = data_value) %>%
-  filter(year %in% c("2002", "2006", "2010")) %>%
-  group_by(county) %>%
-  summarize(mean_excellent = mean(Excellent), sd_excellent = sd(Excellent))
+  group_by(year) %>%
+  summarize(mean_excellent = mean(Excellent/100), sd_excellent = sd(Excellent/100))
 ```
 
 * For each year and state, compute the average proportion in each response category (taking the average across locations in a state). Make a five-panel plot that shows, for each response category separately, the distribution of these state-level averages over time.
 ```{r}
 panel_plot = brfss_smart2010 %>%
-  group_by(state, year) %>%
-  mutate(excellent = sum((health_response == "Excellent")/(sample_size)), very_good = sum((health_response == "Very good")/(sample_size)), good = sum((health_response == "Good")/(sample_size)), fair = sum((health_response == "Fair")/(sample_size)), poor = sum((health_response == "Poor")/(sample_size))) %>%
-  ggplot(panel_plot, aes(x = year, fill = observation)) + 
-  geom_point(alpha = .5) +
-  geom_smooth(se = FALSE) + 
-  facet_grid(. ~ name)
+  group_by(state, year, health_response) %>%
+  summarize(average_proportion = mean(data_value/100))
+
+ggplot(panel_plot, aes(x = year, y = average_proportion, color = state)) + 
+  geom_line(alpha = 0.5) + 
+  facet_grid(~health_response)
+  
 ```
+
+
+
 
 #### Problem 2
 
@@ -108,13 +111,7 @@ sort(table(instacart$aisle), decreasing = TRUE)
 
 ```{r}
 # Table showing the most popular item aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits
-pop = instacart %>% 
-  filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables fruits")) %>%
-  
-  group_by(state) %>%
-  summarize(n = n_distinct(county)) %>%
-  filter(n == 7)
-pop$aisle
+
 ```
 
 ```{r}
